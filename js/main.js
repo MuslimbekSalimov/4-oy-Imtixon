@@ -17,7 +17,7 @@ const elTemplateCommentNext = document.getElementById("template__comment").conte
 
 let posts =[];
 let comment = [];
-let userId = [];
+let userId;
 
 if(!token){
     window.location.replace('login.html')
@@ -42,9 +42,9 @@ function helloUsers(array, node) {
         bekkGAming.querySelector('.heading__name').textContent = element.name
         bekkGAming.querySelector('.heading__username').textContent = element.username
         bekkGAming.querySelector('.text__email').textContent = element.email
-        bekkGAming.querySelector('.button').dataset.userId = element.id;
+        bekkGAming.querySelector('.button__user').dataset.userId = element.id;
 
-        elList.appendChild(bekkGAming)
+        node.appendChild(bekkGAming)
     });
 
     elListCommentNext.innerHTML = null
@@ -70,16 +70,14 @@ async function films() {
 function renderPost(array, node) {
     node.innerHTML = null
 
-
-
     array.forEach(why => {
         const Gaming = elTemplateNext.cloneNode(true)
         Gaming.querySelector('.text').textContent = why.id
-        Gaming.querySelector('.heading__name').textContent = why.title
-        Gaming.querySelector('.heading__username').textContent = why.body
-        Gaming.querySelector('.ciqtogo').dataset.postId = why.id;
+        Gaming.querySelector('.heading__Postname').textContent = why.title
+        Gaming.querySelector('.text__email').textContent = why.body
+        Gaming.querySelector('.post__btn').dataset.postId = why.userId;
 
-        elListNext.appendChild(Gaming)
+        node.appendChild(Gaming)
     });
 
 
@@ -100,7 +98,7 @@ async function getPosts(userId) {
   getPosts()
   
   elList.addEventListener('click', (evt) => {
-    if (evt.target.matches(".button")) {
+    if (evt.target.matches(".button__user")) {
       elListNext.innerHTML = null;
        userId = evt.target.dataset.userId;
       getPosts (userId);
@@ -116,41 +114,34 @@ async function getPosts(userId) {
 function renderComment(array, node) {
     node.innerHTML = null
 
-
-
-    array.forEach(eli => {
+    array.forEach(commentItem => {
         const Hub = elListCommentNext.cloneNode(true)
-        Hub.querySelector('.text').textContent = eli.id;
-        Hub.querySelector('.heading__name').textContent = eli.name;
-        Hub.querySelector('.heading__username').textContent = eli.email;
-        Hub.querySelector('.text__email').textContent = eli.body;
+        Hub.querySelector('.textcomment').textContent = commentItem.postId;
+        Hub.querySelector('.heading__commentname').textContent = commentItem.name;
+        Hub.querySelector('.heading__comment').textContent = commentItem.email;
+        Hub.querySelector('.text__commentemail').textContent = commentItem.body;
 
-        elListCommentNext.appendChild(Hub)
+        node.appendChild(Hub)
     });
 }
 
-async function getComment(postId) {
-    try {
+async function getComment() {
       const respon = await fetch("https://jsonplaceholder.typicode.com/comments/");
-      const datalars = await respon.json();
+      const datas = await respon.json();
     //   console.log(datas);
 
-    renderComment(datalars, elListCommentNext)
-    comment.datalars.filter((commen)=> commen.postId == postId )
+    
+    renderComment(datas, elListCommentNext)
 
-    } catch {
-      console.log("Kemadi tog'o");
+    comment.datas.filter((comment)=> comment.postId == postId)
+
+
     } 
-  } 
-  // getComment()
 
-
-  elListNext.addEventListener("click", (evt) => {
-    evt.preventDefault()
-    const btnCom = evt.target.matches(".ciqtogo");
-    if (btnCom) {
-      const isButton = evt.target.dataset.postId;
-  
-      getComment(isButton);
+  elListNext.addEventListener('click', (evt) => {
+    const post__btn = evt.target.matches('.post__btn');
+    if (post__btn) {
+      const button = evt.target.dataset.userId;
+      getComment(button)
     }
-  });
+})

@@ -33,7 +33,7 @@ li,a {
   }
 
   .list__next {
-    background: #201f0e;
+    background: #098;
     width: 400px;
     height: 100%;
     border-radius: 8px;
@@ -55,7 +55,7 @@ li,a {
   }
 
   .header__list {
-    background-color: #000;
+    background-color: #09D;
   }
 
   .button-5 {
